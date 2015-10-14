@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Web Storage</title>
+</head>
+<body>
+	<section>
+		<header><h1>Using web storage</h1></header>
+			<article>
+				<section>
+					<p>Enter a value and then click out of the INPUT field for the value to be stored</p>
+					<label for="local">Enter a value</label>
+					<input type="text" id="local" value="" name="local" required autofocus>
+					<div id="previous"></div>
+				</section>
+			</article>
+	</section>
+
+	<script type="text/javascript">
+
+	/* La siguiente funcion hace tres funciones
+		1. Crea una base de datos en local llamada storage
+		2. Agrega un campo value a la base de datos storage
+		3. Agrega otro campo timestamp
+
+	*/
+	function getStorage(type){
+		var storage = window[type + "Storage"],
+		delta = 0,
+		li = document.createElement('li');
+
+		if(storage.getItem("value")){
+			delta = ((new Date()).getTime() - (new Date()).setTime(storage.getItem('timestamp'))) / 1000;
+			li.innerHTML = type + "Storage: " + storage.getItem("value") + "(last updated: " +delta + "s ago";
+		}else{
+			li.innerHTML = type + "Storage is empty";
+		}
+		document.querySelector("#previous").appendChild(li);
+	}
+
+	//El siguinte código guarda lo que escribamos en la caja input
+	getStorage("#local");
+	addEvent(document.queryselector("#local"), "keyup", function(){
+		localStorage.setItem("value", this.value);
+		localStorage.setItem("timestamp", (new Date()).getTime());
+	})
+	</script>
+</body>
+</html>
